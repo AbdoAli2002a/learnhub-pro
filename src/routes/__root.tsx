@@ -12,6 +12,15 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
+const NAV = [
+  { to: "/", label: "Overview" },
+  { to: "/angle-sum", label: "Angle Sum" },
+  { to: "/trapezium", label: "Trapezium" },
+  { to: "/parallelogram", label: "Parallelogram" },
+  { to: "/conditions", label: "Conditions" },
+  { to: "/activities", label: "Activities & Games" },
+] as const;
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -77,19 +86,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Quadrilaterals — Lesson Five" },
+      {
+        name: "description",
+        content:
+          "Interactive lesson on quadrilaterals: angle sum, trapezium, parallelogram, and hands-on activities.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: appCss,
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
@@ -114,13 +126,58 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+function SiteHeader() {
+  return (
+    <div className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur">
+      <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-6 gap-y-2 px-5 py-3">
+        <Link to="/" className="font-display text-lg font-semibold">
+          Quadrilaterals<span className="text-accent">.</span>
+        </Link>
+        <nav className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+          {NAV.slice(1).map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              className="text-muted-foreground transition-colors hover:text-foreground"
+              activeProps={{ className: "text-foreground font-semibold" }}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+function SiteFooter() {
+  return (
+    <footer className="border-t bg-secondary/40">
+      <div className="mx-auto max-w-5xl px-5 py-8 text-sm text-muted-foreground">
+        <p className="font-display text-base text-foreground">
+          Unit 3 · Geometry and Measurement · Lesson Five
+        </p>
+        <p className="mt-2">
+          A study companion for quadrilaterals: interior angle sum, trapeziums, parallelograms, and
+          the conditions that turn a quadrilateral into a parallelogram.
+        </p>
+      </div>
+    </footer>
+  );
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="flex min-h-screen flex-col">
+        <SiteHeader />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <SiteFooter />
+      </div>
     </QueryClientProvider>
   );
 }
