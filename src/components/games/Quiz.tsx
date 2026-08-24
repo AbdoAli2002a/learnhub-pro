@@ -69,7 +69,7 @@ export function Quiz() {
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
 
-  const q = QUESTIONS[i];
+  const q = QUESTIONS[i]!;
 
   function pick(idx: number) {
     if (picked !== null) return;

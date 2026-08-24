@@ -49,7 +49,7 @@ export function TrueFalseRush() {
 
   function answer(v: boolean) {
     if (!running) return;
-    const ok = ITEMS[i % ITEMS.length].t === v;
+    const ok = ITEMS[i % ITEMS.length]!.t === v;
     setScore((s) => (ok ? s + 1 : s));
     setFlash(ok ? "ok" : "no");
     setTimeout(() => setFlash(""), 250);
@@ -98,7 +98,7 @@ export function TrueFalseRush() {
           flash === "ok" ? "border-success bg-success/10" : flash === "no" ? "border-destructive bg-destructive/10" : ""
         }`}
       >
-        {ITEMS[i % ITEMS.length].s}
+        {ITEMS[i % ITEMS.length]!.s}
       </div>
       <div className="grid grid-cols-2 gap-3">
         <button
