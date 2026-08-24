@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ActivitiesRouteImport } from './routes/activities'
 import { Route as AngleSumRouteImport } from './routes/angle-sum'
 import { Route as ConditionsRouteImport } from './routes/conditions'
 import { Route as ParallelogramRouteImport } from './routes/parallelogram'
@@ -18,6 +19,11 @@ import { Route as TrapeziumRouteImport } from './routes/trapezium'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ActivitiesRoute = ActivitiesRouteImport.update({
+  id: '/activities',
+  path: '/activities',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AngleSumRoute = AngleSumRouteImport.update({
@@ -43,6 +49,7 @@ const TrapeziumRoute = TrapeziumRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/activities': typeof ActivitiesRoute
   '/angle-sum': typeof AngleSumRoute
   '/conditions': typeof ConditionsRoute
   '/parallelogram': typeof ParallelogramRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/activities': typeof ActivitiesRoute
   '/angle-sum': typeof AngleSumRoute
   '/conditions': typeof ConditionsRoute
   '/parallelogram': typeof ParallelogramRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/activities': typeof ActivitiesRoute
   '/angle-sum': typeof AngleSumRoute
   '/conditions': typeof ConditionsRoute
   '/parallelogram': typeof ParallelogramRoute
@@ -66,12 +75,24 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/angle-sum' | '/conditions' | '/parallelogram' | '/trapezium'
+    | '/'
+    | '/activities'
+    | '/angle-sum'
+    | '/conditions'
+    | '/parallelogram'
+    | '/trapezium'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/angle-sum' | '/conditions' | '/parallelogram' | '/trapezium'
+  to:
+    | '/'
+    | '/activities'
+    | '/angle-sum'
+    | '/conditions'
+    | '/parallelogram'
+    | '/trapezium'
   id:
     | '__root__'
     | '/'
+    | '/activities'
     | '/angle-sum'
     | '/conditions'
     | '/parallelogram'
@@ -80,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ActivitiesRoute: typeof ActivitiesRoute
   AngleSumRoute: typeof AngleSumRoute
   ConditionsRoute: typeof ConditionsRoute
   ParallelogramRoute: typeof ParallelogramRoute
@@ -93,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/activities': {
+      id: '/activities'
+      path: '/activities'
+      fullPath: '/activities'
+      preLoaderRoute: typeof ActivitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/angle-sum': {
@@ -128,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ActivitiesRoute: ActivitiesRoute,
   AngleSumRoute: AngleSumRoute,
   ConditionsRoute: ConditionsRoute,
   ParallelogramRoute: ParallelogramRoute,
